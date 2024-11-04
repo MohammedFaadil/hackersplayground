@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker's Playground</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Meta SEO -->
+    <meta name="title" content="hackersplayground" />
+    <meta name="description"
+        content="hackersplayground is a cyber awareness game to train common peoples about cyber attacks" />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="English" />
+    <meta name="author" content="hackersplayground" />
+
+    <!-- Social media share -->
+    <meta property="og:description"
+        content="Hackers Playground is a cyber awareness game to train common peoples about cyber attacks" />
+    <meta property="og:type" content="Education" />
+    <link rel="stylesheet" href="/css/hackersplayground.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/award/badges.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg"
+        style="background-color: #001F3F; height: 70px; position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div id="header" class="container-fluid">
+            <a class="navbar-brand" href="index.html" style="color: white; font-size:x-large;"><img
+                    src="/images/hackerlogo.png" style="width: 270px;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/learn.html" target="_blank"
+                            style="color: white; font-size:large">Learn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/play/play.html" target="_blank"
+                            style="color: white; font-size:large">Play</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/award/badges.html" 
+                            style="color: white; font-size:large;">Compete</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about.html" target="_blank"
+                            style="color: white; font-size:large">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/contact.html" target="_blank"
+                            style="color: white; font-size:large">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <a href="/signin.html" target="_blank" class="btn btn-outline-success mybutton1" id="mybtn"
+                        style="margin-right: 10px;">Login In</a>
+                    <a href="/signup.html" target="_blank" class="btn btn-outline-success mybutton2" id="mybtn">Sign
+                        Up</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="highScores" class="flex-center flex-column">
+            <h1 id="finalScore">Leaderboard</h1>
+            <img class="leaderboard" src="../images/award.png">
+            <div>
+                <h1 id="currentLevel"></h1>
+            </div>
+            <p class="awardsText">Awards :</p>
+            <div id="awards">
+                <div id="awardsImages"></div>
+            </div>
+            <li class="link techsupport">
+                <a href="/index.html">
+                    <h4 class="banner"><span>HOME</span></h4>
+                </a>
+            </li>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const levelBadges = [
+            '../images/level_1.png',
+            '../images/level_2.png',
+            // Add more image URLs for higher levels if needed
+        ];
+
+        const awardsImagesContainer = document.getElementById('awardsImages');
+        const currentLevelElement = document.getElementById('currentLevel');
+
+        // Function to trigger confetti
+        function launchConfetti() {
+            // Launch confetti from random positions
+            const randomX = Math.random() * window.innerWidth;
+            const randomY = Math.random() * window.innerHeight;
+
+            confetti({
+                startVelocity: 30,
+                spread: 1360,
+                ticks: 1000,
+                gravity: 0.5,
+                origin: { x: randomX / window.innerWidth, y: randomY / window.innerHeight }
+            });
+        }
+
+        // Start confetti continuously at intervals
+        setInterval(launchConfetti, 1000); // Adjust the interval time (in milliseconds) as needed
+
+        // Get the current level from the cookie
+        const currentLevel = getCookie('highestLevel');
+
+        if (currentLevel) {
+            const level = parseInt(currentLevel);
+
+            if (level && level > 0) {
+                // Display images up to the current level
+                for (let i = 0; i < level; i++) {
+                    const image = document.createElement('img');
+                    image.src = levelBadges[i];
+                    image.alt = `Badge Level ${i + 1}`;
+                    awardsImagesContainer.appendChild(image);
+                }
+
+                // Update current level
+                currentLevelElement.textContent = `Current Level: ${level}`;
+            } else {
+                // Handle the case when the current level is not available or invalid
+                currentLevelElement.textContent = 'Current Level: Not Available';
+            }
+        } else {
+            // Handle the case when the current level is not available
+            currentLevelElement.textContent = 'Current Level: Not Available';
+        }
+
+        function getCookie(name) {
+            const cookieName = `${name}=`;
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
+        }
+    </script>
+
+</body>
+
+</html>
